@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Express Prisma PostgreSQL API</title>
+    <meta
+      name="description"
+      content="Developer UI for the Express Prisma PostgreSQL API example."
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="eyebrow">Express · TypeScript · Prisma · PostgreSQL · Zod · JWT</p>
+        <h1>Mini API Dashboard</h1>
+        <p>
+          Interface de démonstration locale pour tester l'API sans Postman : healthcheck,
+          authentification JWT, utilisateur courant, lecture et création de posts.
+        </p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#playground">Tester l'API</a>
+          <a class="button" href="/openapi.json" target="_blank" rel="noreferrer">OpenAPI JSON</a>
+        </div>
+      </div>
+      <aside class="status-card" aria-label="Statut API">
+        <span class="status-dot" id="health-dot"></span>
+        <strong id="health-label">Statut inconnu</strong>
+        <span id="health-details">Clique sur “Healthcheck”.</span>
+      </aside>
+    </header>
+
+    <main>
+      <section class="grid grid--three" aria-label="Résumé technique">
+        <article class="feature-card">
+          <span class="feature-card__icon">API</span>
+          <h2>Architecture backend</h2>
+          <p>Routes modulaires, services métier, repositories Prisma, erreurs centralisées.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-card__icon">JWT</span>
+          <h2>Auth sécurisée</h2>
+          <p>Login par token Bearer, validation Zod et middleware d'authentification.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-card__icon">DB</span>
+          <h2>PostgreSQL</h2>
+          <p>Modèles User/Post, migrations Prisma, seed et support Windows natif.</p>
+        </article>
+      </section>
+
+      <section id="playground" class="panel">
+        <div class="panel__heading">
+          <div>
+            <p class="eyebrow">Playground</p>
+            <h2>Tester les endpoints</h2>
+          </div>
+          <button class="button" type="button" id="health-button">Healthcheck</button>
+        </div>
+
+        <div class="grid grid--two">
+          <form class="card" id="login-form">
+            <h3>1. Login</h3>
+            <p class="muted">Compte seed : admin@example.com / password123</p>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" value="admin@example.com" autocomplete="username" required />
+            <label for="password">Mot de passe</label>
+            <input id="password" name="password" type="password" value="password123" autocomplete="current-password" required />
+            <button class="button button--primary" type="submit">Se connecter</button>
+          </form>
+
+          <article class="card">
+            <h3>2. Token JWT</h3>
+            <p class="muted">Le token est stocké dans le navigateur localement pour les requêtes protégées.</p>
+            <code class="token-preview" id="token-preview">Aucun token</code>
+            <div class="row-actions">
+              <button class="button" type="button" id="me-button">Voir /users/me</button>
+              <button class="button button--danger" type="button" id="logout-button">Vider le token</button>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid grid--two">
+          <article class="card">
+            <div class="card__heading">
+              <h3>3. Posts</h3>
+              <button class="button" type="button" id="refresh-posts-button">Rafraîchir</button>
+            </div>
+            <div class="posts" id="posts-list"></div>
+          </article>
+
+          <form class="card" id="post-form">
+            <h3>4. Créer un post</h3>
+            <label for="post-title">Titre</label>
+            <input id="post-title" name="title" type="text" value="Premier post depuis l'UI" minlength="3" required />
+            <label for="post-content">Contenu</label>
+            <textarea id="post-content" name="content" rows="5" minlength="10" required>API Express + Prisma + PostgreSQL testée depuis l'interface locale.</textarea>
+            <label class="checkbox">
+              <input id="post-published" name="published" type="checkbox" checked />
+              Publier le post
+            </label>
+            <button class="button button--primary" type="submit">Créer</button>
+          </form>
+        </div>
+
+        <article class="card card--wide">
+          <div class="card__heading">
+            <h3>Réponse API</h3>
+            <button class="button" type="button" id="clear-output-button">Effacer</button>
+          </div>
+          <pre id="output">Prêt.</pre>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <span>Express Prisma PostgreSQL API · Demo UI locale</span>
+    </footer>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

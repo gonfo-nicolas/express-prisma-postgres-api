@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: express_prisma_postgres_api
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d express_prisma_postgres_api"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/express_prisma_postgres_api?schema=public
+      SHADOW_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/express_prisma_postgres_api?schema=shadow
+      JWT_SECRET: ci-secret-with-at-least-32-characters
+      JWT_ISSUER: express-prisma-postgres-api
+      JWT_AUDIENCE: express-prisma-postgres-api-users
+      CORS_ORIGIN: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm install
+      - run: npm run db:generate
+      - run: npm run db:deploy
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test

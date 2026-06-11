@@ -1,8 +1,8 @@
 # express-prisma-postgres-api
 
-Mini API REST Express moderne pour démontrer une stack backend TypeScript propre, testable et orientée production.
+Mini API REST Express : stack backend TypeScript, testable et orientée production.
 
-## Stack retenue pour 2026
+## Stacks
 
 - **Express 5.x** : Express 5 est la ligne stable actuelle, avec support direct des handlers `async` qui propagent les promesses rejetées au middleware d'erreur.
 - **Node.js 22+ ou 24 LTS** : le projet accepte Node 22 LTS pour une installation Windows simple, tout en restant compatible Node 24 LTS.
@@ -210,7 +210,7 @@ Encode les caractères spéciaux dans l'URL si besoin. Exemple avec le mot de pa
 DATABASE_URL=postgresql://postgres:my%20password%40123@localhost:5432/express_prisma_postgres_api?schema=public
 ```
 
-## Notes senior
+## Notes dev
 
 - Express 5 permet d'écrire des controllers `async` sans wrapper maison.
 - Prisma 7 nécessite `type: "module"`, un `output` explicite pour le client, et `@prisma/adapter-pg` avec `pg`.
